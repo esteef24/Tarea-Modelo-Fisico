@@ -1,0 +1,130 @@
+--TareaModeloFisico_EstefaniaMarin
+--2017239264
+
+create database quizDos;
+use quizDos;
+
+--Creacion Tabla Ocupacion------------------------------------------------------------------------------
+
+create table quizDos.ocupacionCliente(
+idOcupacion int NOT NULL,
+detalleOcupacion varchar(30) NOT NULL,
+
+--Declaración PK
+PRIMARY KEY (idOcupacion)
+);
+
+--Creacion Tabla Cliente------------------------------------------------------------------------------
+
+create table quizDos.cliente(
+cedula int NOT NULL,
+primerNombre varchar(30) NOT NULL,
+primerApellido varchar(30) NOT NULL,
+email varchar(30) NOT NULL,
+idOcupacion int NOT NULL,
+
+--Declaración PK
+PRIMARY KEY (cedula),
+
+--Declaración FK
+FOREIGN KEY (idOcupacion) REFERENCES ocupacionCliente(idOcupacion)
+);
+
+--Creacion Tabla Tienda------------------------------------------------------------------------------
+
+create table quizDos.tienda(
+idTienda int NOT NULL,
+nombreTienda varchar(30) NOT NULL,
+direccionTienda varchar(30) NOT NULL,
+
+--Declaración PK
+PRIMARY KEY (idTienda)
+);
+
+--Creacion Tabla Estado------------------------------------------------------------------------------
+
+create table quizDos.estadoApartado(
+idEstado int NOT NULL,
+detalleEstado varchar(30) NOT NULL,
+
+--Declaración PK
+PRIMARY KEY (idEstado)
+);
+
+--Creacion Tabla Apartado------------------------------------------------------------------------------
+
+create table quizDos.apartado(
+numeroApt int NOT NULL,
+cedula int NOT NULL,
+plazo int NOT NULL,
+saldoInicial int NOT NULL,
+saldoActual int NOT NULL,
+fechaApartado date NOT NULL,
+idEstado int NOT NULL,
+idTienda int NOT NULL,
+
+--Declaración PK
+PRIMARY KEY (numeroApt),
+PRIMARY KEY (cedula),
+
+--Declaración FK
+FOREIGN KEY (idEstado) REFERENCES estadoApartado(idEstado),
+FOREIGN KEY (idTienda) REFERENCES tienda(idTienda)
+FOREIGN KEY (cedula) REFERENCES cliente(cedula)
+);
+
+--Creacion Tabla Cuota------------------------------------------------------------------------------
+
+create table quizDos.cuota(
+numeroApt int NOT NULL,
+cedula int NOT NULL,
+numeroCuota int NOT NULL,
+montoCuota int NOT NULL,
+fechaPago date NOT NULL,
+
+--Declaración PK
+PRIMARY KEY (numeroApt),
+PRIMARY KEY (cedula),
+PRIMARY KEY (numeroCuota),
+
+--Declaración FK
+FOREIGN KEY (numeroApt) REFERENCES apartado(numeroApt),
+FOREIGN KEY (cedula) REFERENCES apartado(cedula)
+);
+
+--Creacion Tabla producto------------------------------------------------------------------------------
+
+create table quizDos.producto(
+idProducto int NOT NULL,
+detalleProducto varchar(30) NOT NULL,
+cantidadDisponible int NOT NULL,
+productoDisponible int NOT NULL,
+
+--Declaración PK
+PRIMARY KEY (idProducto)
+);
+
+--Creacion Tabla Producto apartado------------------------------------------------------------------------------
+
+create table quizDos.productoApt(
+numeroApt int NOT NULL,
+cedula int NOT NULL,
+idProducto int NOT NULL,
+cantidad int NOT NULL,
+
+--Declaración PK
+PRIMARY KEY (numeroApt),
+PRIMARY KEY (cedula),
+PRIMARY KEY (idProducto),
+
+--Declaración FK
+FOREIGN KEY (numeroApt) REFERENCES apartado(numeroApt),
+FOREIGN KEY (cedula) REFERENCES apartado(cedula),
+FOREIGN KEY (idProducto) REFERENCES producto(idProducto)
+
+);
+
+
+
+
+
